@@ -24,7 +24,7 @@ scriptedLaunchOpts := {
 
 scriptedBufferLog := false
 
-libraryDependencies += "org.codehaus.sonar.runner" % "sonar-runner-dist" % "2.4"
+libraryDependencies += "org.sonarsource.scanner.api" % "sonar-scanner-api" % "2.9.0.887"
 
 version := "git describe --tags --dirty --always".!!.stripPrefix("v").trim
 

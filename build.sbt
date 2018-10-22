@@ -2,7 +2,9 @@ sbtPlugin := true
 
 name := "sbt-sonarrunner-plugin"
 
-organization := "com.aol.sbt"
+scalaVersion := "2.12.7"
+
+organization := "damdev.sbt"
 
 scalacOptions ++= List(
   "-unchecked",
@@ -11,11 +13,7 @@ scalacOptions ++= List(
   "-encoding", "UTF-8"
 )
 
-javaVersionPrefix in javaVersionCheck := Some("1.6")
-
-addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.0.1" % "provided")
-
-ScriptedPlugin.scriptedSettings
+enablePlugins(SbtPlugin)
 
 scriptedLaunchOpts := {
   scriptedLaunchOpts.value ++
@@ -26,21 +24,12 @@ scriptedBufferLog := false
 
 libraryDependencies += "org.codehaus.sonar.runner" % "sonar-runner-dist" % "2.4"
 
-version := "git describe --tags --dirty --always".!!.stripPrefix("v").trim
-
 publishMavenStyle := false
 
-bintrayOrganization := Some("aol")
+bintrayOrganization in bintray := None
 
 bintrayPackageLabels := Seq("sbt", "sonar", "sbt-native-packager")
 
-bintrayRepository := "scala"
+bintrayRepository := "sbt"
 
 licenses +=("MIT", url("http://opensource.org/licenses/MIT"))
-
-resourceGenerators in Compile <+= (resourceManaged in Compile, name, version) map { (dir, n, v) =>
-  val file = dir / "latest-version.properties"
-  val contents = "name=%s\nversion=%s".format(n, v)
-  IO.write(file, contents)
-  Seq(file)
-}
